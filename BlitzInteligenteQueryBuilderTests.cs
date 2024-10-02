@@ -7,26 +7,29 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
-                                        m.idVeiculo as IdDetranMonitor,
-                                        m.Placa AS Placa,
-                                        m.Marca AS Marca,
-                                        m.Cor AS Cor,
-                                        m.DataInclusao AS DataHora,
-                                        CASE
-                                            WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
-		                                    WHEN inadimplencia = 'S' THEN 'Inadimplente'
-		                                    WHEN FLG_Judicial = 'S' THEN 'Judicial'
-		                                    WHEN FLG_Renajud = 'S' THEN 'Judicial'
-		                                    WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
-		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
-		                                    ELSE 'Regular'
-                                        END AS Situacao,
-                                        0 as Abordagem
-                                        FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
-                                                                where 1 = 1
-                                                                and (m.placa= @placa)";
+        string queryEsperada = @"select * from (
+                                        SELECT distinct
+                                            m.idVeiculo as IdDetranMonitor,
+                                            m.Placa AS Placa,
+                                            m.Marca AS Marca,
+                                            m.Cor AS Cor,
+                                            m.DataInclusao AS DataHora,
+                                            CASE
+                                                WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
+		                                        WHEN inadimplencia = 'S' THEN 'Inadimplente'
+		                                        WHEN FLG_Judicial = 'S' THEN 'Judicial'
+		                                        WHEN FLG_Renajud = 'S' THEN 'Judicial'
+		                                        WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
+		                                        WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
+		                                        ELSE 'Regular'
+                                            END AS Situacao,
+                                            codfaixa,
+                                            0 as Abordagem
+                                        FROM Sesdec_Log_CercoMonitoramento m 
+                                             inner join fur_ocorrencia f
+                                             on m.idVeiculo = f.idVeiculo) as a
+                                        where 1 = 1
+                                        and (placa= @placa)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd");
 
@@ -41,7 +44,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -56,11 +59,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)";
+                                        and (placa= @placa)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd");
 
@@ -75,7 +79,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoInadimplenteParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -90,12 +94,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia = 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='inadimplente')";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd", "inadimplente");
 
@@ -110,7 +115,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoInadimplenteParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -125,12 +130,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia = 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='inadimplente')";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd", "inadimplente");
 
@@ -145,7 +151,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoFurtadosParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -160,12 +166,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((FLG_RouboFurto = 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='furto/roubo')";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd", "furtado");
 
@@ -180,7 +187,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoFurtadosParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -195,12 +202,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((FLG_RouboFurto = 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='furto/roubo')";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd", "furtado");
 
@@ -215,7 +223,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoRegularParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -230,17 +238,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                             and FLG_RouboFurto != 'S' 
-                                             and FLG_Judicial != 'S' 
-                                             and FLG_Renajud != 'S' 
-                                             and FLG_AdComunicadoVenda != 'S' 
-                                             and FLG_Administrativa != 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='regular')";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd", "regular");
 
@@ -255,7 +259,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoRegularParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -270,17 +274,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))";
+                                        and (placa= @placa)
+                                        and (situacao='regular')";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd", "regular");
 
@@ -295,7 +295,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoTodasParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -310,11 +310,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
+                                        and (placa= @placa)
                                         ";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd", "todas");
@@ -330,7 +331,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPlacaESituacaoTodasParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -345,11 +346,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
+                                        and (placa= @placa)
                                         ";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd", "todas");
@@ -365,7 +367,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComSituacaoRegularParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -380,16 +382,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))";
+                                        and (situacao='regular')";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, "regular");
 
@@ -404,7 +402,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComSituacaoRegularParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -419,16 +417,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))";
+                                        and (situacao='regular')";
 
 
         ParametrosBlitzInteligente parametros = new("01 -abc", null!, "regular");
@@ -444,7 +438,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusAbordadoParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -459,11 +453,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
+                                                                on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
-                                                                and (m.abordagem = 1)";
+                                                                and (abordagem = 1)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, "abordado");
 
@@ -478,7 +473,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusAbordadoParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -493,11 +488,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.abordagem = 1)";
+                                        and (abordagem = 1)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, "abordado");
 
@@ -512,7 +508,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusNaoAbordadoParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -527,11 +523,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
+                                                                on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
-                                                                and (m.abordagem = 0)";
+                                                                and (abordagem = 0)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, "naoabordado");
 
@@ -546,7 +543,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusNaoAbordadoParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -561,11 +558,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.abordagem = 0)";
+                                        and (abordagem = 0)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, "naoabordado");
 
@@ -580,7 +578,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusAbordadoENaoAbordadoParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -595,9 +593,10 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
+                                                                on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, "abordado,naoabordado");
@@ -613,7 +612,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusAbordadoENaoAbordadoParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -628,9 +627,10 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, "abordado,naoabordado");
@@ -646,7 +646,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComSituacaoRegularEStatusAbordadoParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -661,17 +661,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))
-                                        and (m.abordagem = 1)";
+                                        and (situacao='regular')
+                                        and (abordagem = 1)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, "regular", "abordado");
 
@@ -686,7 +682,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComSituacaoRegularEStatusAbordadoParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -701,17 +697,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a 
                                         where 1 = 1
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))
-                                        and (m.abordagem = 1)";
+                                        and (situacao='regular')
+                                        and (abordagem = 1)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, "regular", "abordado");
 
@@ -726,7 +718,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusNaoAbordadoEPlacaParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -741,12 +733,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
+                                                                on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
-                                                                and (m.placa= @placa)
-                                                                and (m.abordagem = 0)";
+                                                                and (placa= @placa)
+                                                                and (abordagem = 0)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", "abc1bcd", null!, "naoabordado");
 
@@ -761,7 +754,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComStatusNaoAbordadoEPlacaParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -776,12 +769,13 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a 
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and (m.abordagem = 0)";
+                                        and (placa= @placa)
+                                        and (abordagem = 0)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1bcd", null!, "naoabordado");
 
@@ -796,7 +790,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComCodigoFaixaParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -811,11 +805,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                                                on m.idVeiculo = f.idVeiculo
+                                                                on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
-                                                                and (m.codfaixa = @codigoFaixa)";
+                                                                and (codfaixa = @codigoFaixa)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, null!, 2);
 
@@ -830,7 +825,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComCodigoFaixaParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -845,11 +840,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.codfaixa = @codigoFaixa)";
+                                        and (codfaixa = @codigoFaixa)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, null!, 1);
 
@@ -864,7 +860,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComDataInicioParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -879,11 +875,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.DataInclusao >= @dataInicio)";
+                                        and (DataHora >= @dataInicio)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, null!, null!, DateTime.Now);
 
@@ -898,7 +895,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComDataInicioParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -913,11 +910,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.DataInclusao >= @dataInicio)";
+                                        and (DataHora >= @dataInicio)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, null!, null!, DateTime.Now);
 
@@ -932,7 +930,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComDataInicioEDataFimParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -947,11 +945,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)";
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)";
 
         ParametrosBlitzInteligente parametros = new("1133-abc", null!, null!, null!, null!, DateTime.Now, DateTime.Now);
 
@@ -966,7 +965,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComDataInicioEDataFimParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -981,11 +980,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)";
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)";
 
         ParametrosBlitzInteligente parametros = new("01-abc", null!, null!, null!, null!, DateTime.Now, DateTime.Now);
 
@@ -1000,7 +1000,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPaginacaoParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -1015,11 +1015,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        order by m.DataInclusao
+                                        order by DataHora
                                         offset @qtdRegistrosParaPular ROWS
                                         FETCH next @qtdDeRegistroParaRetornar ROW Only;";
 
@@ -1036,7 +1037,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryComPaginacaoParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -1051,11 +1052,12 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        order by m.DataInclusao
+                                        order by DataHora
                                         offset @qtdRegistrosParaPular ROWS
                                         FETCH next @qtdDeRegistroParaRetornar ROW Only;";
 
@@ -1072,7 +1074,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryCompletaParaSesdecLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -1087,21 +1089,17 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         0 as Abordagem
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))
-                                        and (m.abordagem = 1)
-                                        and (m.codfaixa = @codigoFaixa)
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)
-                                        order by m.DataInclusao
+                                        and (placa= @placa)
+                                        and (situacao='regular')
+                                        and (abordagem = 1)
+                                        and (codfaixa = @codigoFaixa)
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)
+                                        order by DataHora
                                         offset @qtdRegistrosParaPular ROWS
                                         FETCH next @qtdDeRegistroParaRetornar ROW Only;";
 
@@ -1118,7 +1116,7 @@ public class BlitzInteligenteQueryBuilderTests
     public void Criar_RetornaQueryCompletaParaDetranLog()
     {
         //arrange
-        string queryEsperada = @"SELECT distinct
+        string queryEsperada = @"select * from (SELECT distinct
                                         m.idVeiculo as IdDetranMonitor,
                                         m.Placa AS Placa,
                                         m.Marca AS Marca,
@@ -1133,21 +1131,17 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
 		                                    ELSE 'Regular'
                                         END AS Situacao,
+                                        codfaixa,
                                         m.abordagem as Abordagem
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))
-                                        and (m.abordagem = 1)
-                                        and (m.codfaixa = @codigoFaixa)
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)
-                                        order by m.DataInclusao
+                                        and (placa= @placa)
+                                        and (situacao='regular')
+                                        and (abordagem = 1)
+                                        and (codfaixa = @codigoFaixa)
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)
+                                        order by DataHora
                                         offset @qtdRegistrosParaPular ROWS
                                         FETCH next @qtdDeRegistroParaRetornar ROW Only;";
 
@@ -1255,35 +1249,34 @@ public class BlitzInteligenteQueryBuilderTests
     {
         //arrange
         string queryEsperada = @"select count(*) as total from (
-                                    SELECT distinct
-                                        m.idVeiculo as IdDetranMonitor,
-                                        m.Placa AS Placa,
-                                        m.Marca AS Marca,
-                                        m.Cor AS Cor,
-                                        m.DataInclusao AS DataHora,
-                                        CASE
-                                            WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
-		                                    WHEN inadimplencia = 'S' THEN 'Inadimplente'
-		                                    WHEN FLG_Judicial = 'S' THEN 'Judicial'
-		                                    WHEN FLG_Renajud = 'S' THEN 'Judicial'
-		                                    WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
-		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
-		                                    ELSE 'Regular'
-                                        END AS Situacao,
-                                        m.abordagem as Abordagem
-                                        FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+
+                                    select * from (
+
+                                                    SELECT distinct
+                                                        m.idVeiculo as IdDetranMonitor,
+                                                        m.Placa AS Placa,
+                                                        m.Marca AS Marca,
+                                                        m.Cor AS Cor,
+                                                        m.DataInclusao AS DataHora,
+                                                        CASE
+                                                            WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
+		                                                    WHEN inadimplencia = 'S' THEN 'Inadimplente'
+		                                                    WHEN FLG_Judicial = 'S' THEN 'Judicial'
+		                                                    WHEN FLG_Renajud = 'S' THEN 'Judicial'
+		                                                    WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
+		                                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
+		                                                    ELSE 'Regular'
+                                                        END AS Situacao,
+                                                        codfaixa,
+                                                        m.abordagem as Abordagem
+                                                        FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
+                                                        on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S'))
-                                        and (m.abordagem = 1)
-                                        and (m.codfaixa = @codigoFaixa)
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)
+                                        and (placa= @placa)
+                                        and (situacao='regular')
+                                        and (abordagem = 1)
+                                        and (codfaixa = @codigoFaixa)
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)
                                         ) as a";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1234", "regular", "abordado", 1, DateTime.Now, DateTime.Now, 2, 5);
@@ -1300,40 +1293,33 @@ public class BlitzInteligenteQueryBuilderTests
     {
         //arrange
         string queryEsperada = @"select count(*) as total from (
-                                    SELECT distinct
-                                        m.idVeiculo as IdDetranMonitor,
-                                        m.Placa AS Placa,
-                                        m.Marca AS Marca,
-                                        m.Cor AS Cor,
-                                        m.DataInclusao AS DataHora,
-                                        CASE
-                                            WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
-		                                    WHEN inadimplencia = 'S' THEN 'Inadimplente'
-		                                    WHEN FLG_Judicial = 'S' THEN 'Judicial'
-		                                    WHEN FLG_Renajud = 'S' THEN 'Judicial'
-		                                    WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
-		                                    WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
-		                                    ELSE 'Regular'
-                                        END AS Situacao,
-                                        m.abordagem as Abordagem
-                                        FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
-                                        on m.idVeiculo = f.idVeiculo
+    
+                                select * from (
+                                                        SELECT distinct
+                                                            m.idVeiculo as IdDetranMonitor,
+                                                            m.Placa AS Placa,
+                                                            m.Marca AS Marca,
+                                                            m.Cor AS Cor,
+                                                            m.DataInclusao AS DataHora,
+                                                            CASE
+                                                                WHEN FLG_RouboFurto = 'S' THEN 'Furto/Roubo'
+		                                                        WHEN inadimplencia = 'S' THEN 'Inadimplente'
+		                                                        WHEN FLG_Judicial = 'S' THEN 'Judicial'
+		                                                        WHEN FLG_Renajud = 'S' THEN 'Judicial'
+		                                                        WHEN FLG_AdComunicadoVenda = 'S' THEN 'Comunicado de Venda'
+		                                                        WHEN FLG_Administrativa = 'S' THEN 'Administrativa'
+		                                                        ELSE 'Regular'
+                                                            END AS Situacao,
+                                                            codfaixa,
+                                                            m.abordagem as Abordagem
+                                                            FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
+                                                            on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
-                                        and (m.placa= @placa)
-                                        and ((Inadimplencia != 'S' 
-                                              and FLG_RouboFurto != 'S' 
-                                              and FLG_Judicial != 'S' 
-                                              and FLG_Renajud != 'S' 
-                                              and FLG_AdComunicadoVenda != 'S' 
-                                              and FLG_Administrativa != 'S')
-
-                                              or  (Inadimplencia = 'S') 
-				                              or  (FLG_RouboFurto = 'S')   
-                        
-                                            )
-                                        and (m.abordagem = 1)
-                                        and (m.codfaixa = @codigoFaixa)
-                                        and (m.DataInclusao BETWEEN @dataInicio AND @dataFim)
+                                        and (placa= @placa)
+                                        and (situacao='regular' or situacao='inadimplente' or situacao = 'Furto/Roubo')
+                                        and (abordagem = 1)
+                                        and (codfaixa = @codigoFaixa)
+                                        and (DataHora BETWEEN @dataInicio AND @dataFim)
                                         ) as a";
 
         ParametrosBlitzInteligente parametros = new("01-abc", "abc1234", "regular,inadimplente,furtado", "abordado", 1, DateTime.Now, DateTime.Now, 2, 5);
