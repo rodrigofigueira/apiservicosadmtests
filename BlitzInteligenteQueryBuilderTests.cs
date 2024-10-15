@@ -24,7 +24,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                        ELSE 'Regular'
                                             END AS Situacao,
                                             codfaixa,
-                                            0 as Abordagem
+                                            Abordagem,
+                                            indicesesdeclog as IdTabela,
+                                            'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m 
                                              inner join fur_ocorrencia f
                                              on m.idVeiculo = f.idVeiculo) as a
@@ -60,7 +64,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -95,7 +103,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -131,7 +143,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -167,7 +183,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -203,7 +223,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -239,7 +263,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -275,7 +303,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -311,7 +343,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -347,7 +383,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -383,7 +423,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -418,7 +462,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -454,7 +502,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                                 on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
@@ -489,7 +541,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -524,7 +580,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                                 on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
@@ -559,7 +619,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -594,7 +658,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                                 on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1";
@@ -628,7 +696,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1";
@@ -662,7 +734,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -698,7 +774,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a 
                                         where 1 = 1
@@ -734,7 +814,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                                 on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
@@ -770,7 +854,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a 
                                         where 1 = 1
@@ -806,7 +894,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                                 on m.idVeiculo = f.idVeiculo) as a
                                                                 where 1 = 1
@@ -841,7 +933,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -876,7 +972,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -911,7 +1011,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -946,7 +1050,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -981,7 +1089,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1016,7 +1128,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1053,7 +1169,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1090,7 +1210,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        0 as Abordagem
+                                        Abordagem,
+                                        indicesesdeclog as IdTabela,
+                                        'sesdeclog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Sesdec_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1132,7 +1256,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                    ELSE 'Regular'
                                         END AS Situacao,
                                         codfaixa,
-                                        m.abordagem as Abordagem
+                                        m.abordagem as Abordagem,
+                                        iddetranmonitor as IdTabela,
+                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1268,7 +1396,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                                    ELSE 'Regular'
                                                         END AS Situacao,
                                                         codfaixa,
-                                                        m.abordagem as Abordagem
+                                                        m.abordagem as Abordagem,
+                                                        iddetranmonitor as IdTabela,
+                                                        'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                                         FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                         on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
@@ -1311,7 +1443,11 @@ public class BlitzInteligenteQueryBuilderTests
 		                                                        ELSE 'Regular'
                                                             END AS Situacao,
                                                             codfaixa,
-                                                            m.abordagem as Abordagem
+                                                            m.abordagem as Abordagem,
+                                                            iddetranmonitor as IdTabela,
+                                                            'detranlog' as TabelaOrigem,
+                                        m.TipoVeiculo,
+                                        Speed as Velocidade
                                                             FROM Detran_Log_CercoMonitoramento m inner join fur_ocorrencia f
                                                             on m.idVeiculo = f.idVeiculo) as a
                                         where 1 = 1
